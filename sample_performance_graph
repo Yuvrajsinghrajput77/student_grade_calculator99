@@ -1,0 +1,11 @@
+# save this as quick_sample_plot.py at repo root and run: python quick_sample_plot.py
+import matplotlib.pyplot as plt
+names = ["Alice", "Bob", "Charlie"]
+percent = [85, 72, 64]
+plt.figure(figsize=(6,3))
+plt.bar(names, percent)
+plt.ylim(0,100)
+plt.title("Sample Class Performance")
+plt.tight_layout()
+plt.savefig("screenshots/performance_graph.png")
+print("Saved screenshots/performance_graph.png")
