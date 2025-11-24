@@ -1,0 +1,88 @@
+#code
+import csv
+import matplotlib.pyplot as plt
+
+def calculate_grade(percentage):
+    if percentage >= 90:
+        return "A+"
+    elif percentage >= 80:
+        return "A"
+    elif percentage >= 70:
+        return "B"
+    elif percentage >= 60:
+        return "C"
+    elif percentage >= 50:
+        return "D"
+    else:
+        return "Fail"
+
+def add_student():
+    name = input("Enter student name: ")
+    subjects = int(input("How many subjects? "))
+
+    marks = []
+    for i in range(subjects):
+        mark = float(input(f"Enter marks for Subject {i+1}: "))
+        marks.append(mark)
+
+    total = sum(marks)
+    percentage = round(total / subjects, 2)
+    grade = calculate_grade(percentage)
+
+    with open("grades.csv", "a", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow([name, total, percentage, grade])
+
+    print("\nStudent data saved successfully!\n")
+
+def show_report():
+    try:
+        with open("grades.csv", "r") as file:
+            reader = csv.reader(file)
+            data = list(reader)
+
+            print("\n******** Student Grade Report ********")
+            print("Name\tTotal\tPercentage\tGrade")
+            print("-------------------------------------")
+            for row in data:
+                print(f"{row[0]}\t{row[1]}\t{row[2]}%\t\t{row[3]}")
+    except FileNotFoundError:
+        print("\nNo data found. Please add students first!\n")
+
+def show_graph():
+    try:
+        with open("grades.csv", "r") as file:
+            reader = csv.reader(file)
+            data = list(reader)
+
+            names = [row[0] for row in data]
+            percentages = [float(row[2]) for row in data]
+
+            plt.bar(names, percentages)
+            plt.xlabel("Students")
+            plt.ylabel("Percentage")
+            plt.title("Class Performance Chart")
+            plt.show()
+    except FileNotFoundError:
+        print("No data found! Add students first!")
+
+while True:
+    print("\n===== Student Grade Calculator Menu =====")
+    print("1. Add Student Records")
+    print("2. Show Grade Report")
+    print("3. Show Performance Graph")
+    print("4. Exit")
+
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        add_student()
+    elif choice == "2":
+        show_report()
+    elif choice == "3":
+        show_graph()
+    elif choice == "4":
+        print("Thank you for using the program!")
+        break
+    else:
+        print("Invalid choice! Please try again.")
