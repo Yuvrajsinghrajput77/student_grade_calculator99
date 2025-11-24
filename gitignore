@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+data/grades.csv
+.env
+.vscode/
+.DS_Store
